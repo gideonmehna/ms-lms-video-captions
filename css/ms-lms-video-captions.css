@@ -1,0 +1,16 @@
+
+.caption {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.76);
+    padding: 10px;
+    border-radius: 5px;
+    max-width: 90%;
+    margin: auto;
+    word-wrap: break-word;
+}
