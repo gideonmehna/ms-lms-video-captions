@@ -1,9 +1,8 @@
 window.onload = function() {
-    console.log("Window loaded");
 
     var player = document.querySelector('.plyr__video-embed');
     if (player) {
-        // console.log("Player found");
+    
 
         jQuery.ajax({
             url: post_data.ajax_url,
@@ -14,25 +13,25 @@ window.onload = function() {
                 security: post_data.security
             },
             success: function(response) {
-                // console.log("AJAX request successful", response);
+                
 
                 if (response.success) {
                     var vttFileUrl = response.vtt_file_url;
                     if (vttFileUrl) {
-                        // console.log("VTT file URL found:", vttFileUrl);
+                        
 
                         var captionContainer = document.createElement('div');
                         captionContainer.className = 'caption subtitle';
                         player.appendChild(captionContainer);
-                        // console.log("Caption container appended to player");
+                       
 
                         fetch(vttFileUrl)
                             .then(response => {
-                                // console.log("VTT file fetch successful");
+                               
                                 return response.text();
                             })
                             .then(data => {
-                                // console.log("VTT file data received");
+                                
                                 parseVTT(data);
                             })
                             .catch(error => {
@@ -40,7 +39,7 @@ window.onload = function() {
                             });
 
                         function parseVTT(data) {
-                            // console.log("Parsing VTT data");
+                            
                             var captions = {};
                             var lines = data.split('\n');
                             var caption = {};
@@ -52,16 +51,16 @@ window.onload = function() {
                                     currentStartTime = roundTime(parseTime(times[0]));
                                     caption.start = currentStartTime;
                                     caption.end = roundTime(parseTime(times[1]));
-                                    // console.log("Parsed caption times:", caption.start, caption.end);
+                                  
                                 } else if (line.trim() === '') {
                                     if (currentStartTime !== undefined) {
                                         captions[currentStartTime] = caption;
-                                        // console.log("Caption added:", caption);
+                                        
                                     }
                                     caption = {};
                                 } else {
                                     caption.text = (caption.text ? caption.text + '\n' : '') + line;
-                                    // console.log("Caption text updated:", caption.text);
+                                    
                                 }
                             });
 
@@ -71,10 +70,7 @@ window.onload = function() {
                                 if (captions[currentTime]) {
                                     captionContainer.innerText = captions[currentTime].text;
                                     console.log("Displaying caption:", captions[currentTime].text);
-                                } else {
-                                    // captionContainer.innerText = '';
-                                    console.log("No caption to display at current time:", currentTime);
-                                }
+                                } 
                             }
                             window.addEventListener('message', function(event) {
                                 let eventData;
@@ -95,18 +91,15 @@ window.onload = function() {
                                 }
                             });
 
-                            // setInterval(displayCaption, 500);
-                            // console.log("Caption display interval set");
                         }
 
                         function parseTime(time) {
-                            // console.log("Parsing time:", time);
                             var parts = time.split(':');
                             var seconds = parts.pop();
                             var minutes = parts.pop();
                             var hours = parts.length ? parts.pop() : 0;
                             var parsedTime = parseFloat(hours) * 3600 + parseFloat(minutes) * 60 + parseFloat(seconds);
-                            // console.log("Parsed time:", parsedTime);
+                           
                             return parsedTime;
                         }
 
@@ -145,7 +138,7 @@ window.onload = function() {
             });
 
             menu.appendChild(toggleButton);
-            console.log("Toggle captions button appended to menu");
+           
         } else {
             console.error("Menu not found");
         }
